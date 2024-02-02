@@ -18,7 +18,6 @@ class RestaurantController extends Controller
         }
 
         $restaurants = $query->get();
-
         return $restaurants;
     }
 
@@ -28,16 +27,15 @@ class RestaurantController extends Controller
 
         if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
-            $avatar_name = time().'.'.$avatar->getClientOriginalExtension();
-            $avatar->storeAs('public/images', $avatar_name);
-            $data['avatar'] = $avatar_name;
+            $path = $avatar->store('restaurants');
+            $data['avatar'] = asset($path);
         }
 
         return Restaurant::create($data);
     }
 
     public function show($id) {
-        return Restaurant::find($id);
+        return Restaurant::with('products')->find($id);
     }
 
     public function update(Request $request, $id) {

@@ -5,7 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\User\DashboardController;
 use App\Http\Controllers\User\Restaurant\RestaurantController;
-
+use App\Http\Controllers\User\Product\ProductController;
+use App\Http\Controllers\User\Category\CategoryController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,12 +23,15 @@ use App\Http\Controllers\User\Restaurant\RestaurantController;
 // });
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->middleware('auth:sanctum');
+    Route::get('/dashboard', [DashboardController::class, 'index']);
     Route::resource('/restaurants', RestaurantController::class)->except(['create', 'edit']);
+    Route::get('api/restaurants/{id}/products', [ProductController::class, 'index']);
+    Route::get('/categories', [CategoryController::class, 'index']);
     Route::post('/logout', [AuthController::class, 'logout']);
 });
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+
 
 

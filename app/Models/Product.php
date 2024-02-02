@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $fillable = ['restaurants_id', 'name', 'price', 'description'];
     use HasFactory;
+
+    protected $fillable = ['restaurant_id', 'name', 'price', 'avatar', 'description'];
+
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class, 'restaurant_id');
+    }
 }

@@ -4,21 +4,16 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\AuthRequest;
+use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\LoginRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
-
 use Illuminate\Support\Facades\Hash;
-
-// 2|Q0rUI3vi2whyEiM2FgKXz0qhOiPLDrT1PdeIMZN1d9b7c50
 
 class AuthController extends Controller
 {
-    public function login(Request $request) {
-        $request->validate([
-            'email' =>'required|email',
-            'password' => 'required|min:4',
-        ]);
+    public function login(LoginRequest $request) {
+        $request->validated();
 
         if(Auth::attempt($request->only('email', 'password'))) {
             $user = Auth::user();
@@ -33,7 +28,7 @@ class AuthController extends Controller
         }
     }
 
-    public function register(AuthRequest $request) {
+    public function register(RegisterRequest $request) {
         $request->validated();
 
         $user = User::create([
